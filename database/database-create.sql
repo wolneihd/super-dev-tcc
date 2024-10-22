@@ -1,6 +1,6 @@
 -- USE the database
-CREATE DATABASE IF NOT EXISTS aplicacao02;
-USE aplicacao02;
+CREATE DATABASE IF NOT EXISTS aplicacao;
+USE aplicacao;
 
 -- -----------------------------------------------------
 -- Dropping existing tables if they exist

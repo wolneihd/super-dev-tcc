@@ -19,14 +19,14 @@ public class Usuario {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private Long userId;
     private String firstName;
     private String lastName;
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_usuario")
     @JsonManagedReference // Para controlar a serialização
     private List<Mensagem> mensagens = new ArrayList<Mensagem>();
 
@@ -34,11 +34,11 @@ public class Usuario {
     public Usuario() {}
  
     // Getters e Setters
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
