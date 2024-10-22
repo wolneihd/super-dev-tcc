@@ -2,14 +2,26 @@ import os
 import telebot
 import speech_recognition as sr
 from pydub import AudioSegment
+from dotenv import load_dotenv
 
-# Substitua pelo seu token do bot
-API_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
-bot = telebot.TeleBot(API_TOKEN)
+from service_saveDB import save_text_message_DB, save_audio_message_DB
+
+# Carregar variáveis de ambiente
+load_dotenv()
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+bot = telebot.TeleBot(TELEGRAM_TOKEN)
+
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.reply_to(message, "Envie um áudio que eu vou transcrever!")
+    bot.reply_to(message, "Olá, você está no IA-Feedback-Analyser!")
+
+
+@bot.message_handler(content_types=['text'])
+def handle_text(message):
+    save_text_message_DB(message)
+    bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
+
 
 @bot.message_handler(content_types=['voice'])
 def handle_voice(message):
@@ -29,12 +41,15 @@ def handle_voice(message):
     # Transcreve o áudio
     transcription = transcribe_audio(wav_file_path)
 
-    # Envia a transcrição de volta ao usuário
-    bot.reply_to(message, transcription)
+    # Salva informação no banco de dados
+    save_audio_message_DB(message, transcription)
+    bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
+
 
 def convert_audio(input_file, output_file):
     audio = AudioSegment.from_ogg(input_file)
     audio.export(output_file, format="wav")
+
 
 def transcribe_audio(audio_path):
     recognizer = sr.Recognizer()
@@ -43,12 +58,14 @@ def transcribe_audio(audio_path):
         audio_data = recognizer.record(source)
 
     try:
-        # Transcreve usando o pocketsphinx
-        return recognizer.recognize_sphinx(audio_data, language='pt-BR')
+        # Transcreve usando a API do Google
+        return recognizer.recognize_google(audio_data, language='pt-BR')
     except sr.UnknownValueError:
         return "Não consegui entender o áudio."
     except sr.RequestError as e:
         return f"Erro ao conectar ao serviço de reconhecimento de fala: {e}"
 
+
 if __name__ == '__main__':
+    print("bot start...")
     bot.polling(none_stop=True)
