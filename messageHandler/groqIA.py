@@ -55,8 +55,8 @@ def analise_texto_gropIA(mensagem:str):
         return analise
     except:
         print("Erro ao gerar Array e instanciar o objeto.")
-
-if __name__ == '__main__':
-    analise_texto_gropIA("Queria saber mais sobre as promoções")
+        analise = AnaliseIA(None, None, None)
+        return analise
+    
 
     
