@@ -3,11 +3,13 @@ import json
 from groqIA import analise_texto_gropIA
 
 def save_message_DB(mensagem, audio_transcrito=None):
-    analise = analise_texto_gropIA(mensagem.json['text'])
+    # analise = analise_texto_gropIA(mensagem.json['text'])
+    global analise
     url = "http://localhost:8081/dados/nova-mensagem"
 
     #Define o tipo e o id da mensagem com base no tipo fornecido
     if mensagem.content_type == "text":
+        analise = analise_texto_gropIA(mensagem.json['text'])
         tipos_mensagem = {
             "id": 1,
             "tipo": "texto"
@@ -20,6 +22,7 @@ def save_message_DB(mensagem, audio_transcrito=None):
         }
         msg = "WIP - descrever imagem."
     elif mensagem.content_type == "voice":
+        analise = analise_texto_gropIA(audio_transcrito)
         tipos_mensagem = {
             "id": 3,
             "tipo": "audio"
