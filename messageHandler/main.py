@@ -3,8 +3,6 @@ import telebot
 import speech_recognition as sr
 from pydub import AudioSegment
 from dotenv import load_dotenv
-
-#from service_saveDB import save_text_message_DB, save_audio_message_DB
 from service import save_message_DB
 
 # Carregar variáveis de ambiente

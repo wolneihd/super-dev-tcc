@@ -22,7 +22,7 @@ def analise_texto_gropIA(mensagem:str):
     user_input = f"""
     - você deve analisar a mensagem enviada abaixo.
     - serão 03 respostas que devem ser separadas por ; entre elas para podemos depois podermos tabular os dados.
-    - pergunta 01: foi um feedback: positivo, negativo, neutro ou inconclusivel?
+    - pergunta 01: foi um feedback - positivo, negativo, neutro ou inconclusivel?
     - pergunta 02: categorizar (somente uma opção válida): limpeza, organização, atendimento, outro.
     - pergunta 03: resumir em até no máximo 50 caracteres (considerando pontuações e espaços vazios). 
 
@@ -56,5 +56,7 @@ def analise_texto_gropIA(mensagem:str):
     except:
         print("Erro ao gerar Array e instanciar o objeto.")
 
+if __name__ == '__main__':
+    analise_texto_gropIA("Queria saber mais sobre as promoções")
 
     

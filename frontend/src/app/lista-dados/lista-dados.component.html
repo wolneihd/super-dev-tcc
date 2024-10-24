@@ -1,0 +1,53 @@
+<div class="card">
+  <p-table [value]="usuarios" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>ID Telegram</th>
+        <th>Nome</th>
+        <th>Sobrenome</th>
+        <th>Quantidade Mensagens</th>
+        <th>Ação</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-usuario>
+      <tr>
+        <td>{{ usuario.id }}</td>
+        <td>{{ usuario.userId }}</td>
+        <td>{{ usuario.firstName }}</td>
+        <td>{{ usuario.lastName }}</td>
+        <td>{{ usuario.mensagens.length }}</td>
+        <td>
+          <p-button label="Ver Mensagens" [outlined]="true" (click)="toggleMensagens(usuario.id)"></p-button>
+        </td>
+      </tr>
+      <tr *ngIf="expandedUsuarioId === usuario.id">
+        <td colspan="6">
+
+            <p-table [value]="usuario.mensagens" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>ID</th>
+                        <th>Resumo IA</th>
+                        <th>Feedback</th>
+                        <th>Categoria</th>
+                        <th>Ação</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-mensagem>
+                    <tr>
+                        <td>{{ mensagem.id }}</td>
+                        <td>{{ mensagem.analise_ia }}</td>
+                        <td>{{ mensagem.feedback }}</td>
+                        <td>{{ mensagem.categoria }}</td>
+                        <td>
+                          <p-button label="Responder" [outlined]="true" severity="help" />
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
