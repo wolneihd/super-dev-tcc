@@ -54,6 +54,7 @@ public class UsuariosService {
 
     @Transactional
     public List<Usuario> addNewMessages(List<Usuario> usuarios) {
+        System.out.println("-- entrnando no serviçO!");
         List<Usuario> savedUsuarios = new ArrayList<>();
         for (Usuario usuario : usuarios) {
             // Verifica se já existe um usuário com o mesmo userId
@@ -76,6 +77,9 @@ public class UsuariosService {
                 newMensagem.setTimestampCod(mensagem.getTimestampCod());
                 newMensagem.setTiposMensagem(mensagem.getTiposMensagem());
                 newMensagem.setUsuario(existingUsuario); // Associa a nova mensagem ao usuário
+                newMensagem.setAnalise_ia(mensagem.getAnalise_ia());
+                newMensagem.setCategoria(mensagem.getCategoria());
+                newMensagem.setFeedback(mensagem.getFeedback());
                 mensagensRepository.save(newMensagem); // Salva como um novo registro
             }
 

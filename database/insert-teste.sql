@@ -3,4 +3,3 @@ INSERT INTO `tiposMensagem` (tipo) VALUES
 ('texto'),
 ('imagem'),
 ('audio');
-

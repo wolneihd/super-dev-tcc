@@ -38,6 +38,9 @@ CREATE TABLE IF NOT EXISTS `mensagens` (
   `id_usuario` INT NOT NULL,
   `timestamp_cod` BIGINT NOT NULL,
   `text_msg` VARCHAR(255) NOT NULL,
+  `categoria` VARCHAR(45) NULL,
+  `analise_ia` VARCHAR(50) NULL,
+  `feedback` VARCHAR(10) NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`id_tipo_mensagem`) REFERENCES `tiposMensagem` (`id`),
   FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`)

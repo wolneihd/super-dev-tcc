@@ -1,7 +1,9 @@
 import requests
 import json
+from groqIA import analise_texto_gropIA
 
 def save_text_message_DB(mensagem):
+    analise = analise_texto_gropIA(mensagem.json['text'])
     url = "http://localhost:8081/dados/nova-mensagem"
     data = [
         {
@@ -16,7 +18,10 @@ def save_text_message_DB(mensagem):
                         "tipo": "texto"
                     },
                     "timestampCod": mensagem.date,
-                    "textMsg": mensagem.json['text']
+                    "textMsg": mensagem.json['text'],
+                    "categoria": analise.categoria,
+                    "analise_ia": analise.analise_ia,
+                    "feedback": analise.feedback,
                 }
             ]
         }
@@ -51,7 +56,10 @@ def save_audio_message_DB(mensagem, audio_transcrito:str):
                         "tipo": "audio"
                     },
                     "timestampCod": mensagem.date,
-                    "textMsg": audio_transcrito
+                    "textMsg": audio_transcrito,
+                    "categoria": "teste categoria",
+                    "analise_ia": "teste analise_ia",
+                    "feedback": "negativo",
                 }
             ]
         }

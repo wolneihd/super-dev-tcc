@@ -34,6 +34,11 @@ public class Mensagem {
     private Long timestampCod;
     private String textMsg;
 
+    // Campos análise IA
+    private String feedback;
+    private String categoria;
+    private String analise_ia;
+
     // Getters e Setters
 
     public Integer getId() {
@@ -76,4 +81,27 @@ public class Mensagem {
         this.textMsg = textMsg;
     }
 
+    public String getFeedback() {
+        return this.feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public String getCategoria() {
+        return this.categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getAnalise_ia() {
+        return this.analise_ia;
+    }
+
+    public void setAnalise_ia(String analise_ia) {
+        this.analise_ia = analise_ia;
+    }
 }

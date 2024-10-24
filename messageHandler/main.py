@@ -4,7 +4,8 @@ import speech_recognition as sr
 from pydub import AudioSegment
 from dotenv import load_dotenv
 
-from service_saveDB import save_text_message_DB, save_audio_message_DB
+#from service_saveDB import save_text_message_DB, save_audio_message_DB
+from service import save_message_DB
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -19,7 +20,8 @@ def start_message(message):
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    save_text_message_DB(message)
+    #save_text_message_DB(message)
+    save_message_DB(message)
     bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
 
 
@@ -42,7 +44,7 @@ def handle_voice(message):
     transcription = transcribe_audio(wav_file_path)
 
     # Salva informação no banco de dados
-    save_audio_message_DB(message, transcription)
+    save_message_DB(message, transcription)
     bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
 
 
