@@ -26,7 +26,7 @@ export class ListaDadosComponent {
   }
 
   buscarDados() {
-    this.httpClient.get<Usuario[]>(`http://localhost:8081/dados/`).subscribe(
+    this.httpClient.get<Usuario[]>(`http://localhost:8081/dados`).subscribe(
       res => {
         this.usuarios = res; // Armazena a resposta na propriedade usuarios
         console.log(this.usuarios);

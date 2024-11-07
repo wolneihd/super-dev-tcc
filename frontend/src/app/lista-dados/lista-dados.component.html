@@ -28,6 +28,8 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>ID</th>
+                        <th>Tipo</th>
+                        <th>Timestamp</th>
                         <th>Resumo IA</th>
                         <th>Feedback</th>
                         <th>Categoria</th>
@@ -37,6 +39,8 @@
                 <ng-template pTemplate="body" let-mensagem>
                     <tr>
                         <td>{{ mensagem.id }}</td>
+                        <td>{{ mensagem.tipoMensagem }}</td>
+                        <td>{{ mensagem.timestamp }}</td>
                         <td>{{ mensagem.analise_ia }}</td>
                         <td>{{ mensagem.feedback }}</td>
                         <td>{{ mensagem.categoria }}</td>

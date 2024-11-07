@@ -1,14 +1,8 @@
-// tipos-mensagem
-export interface TiposMensagem {
-  id: number;
-  tipo: string;
-}
-
 // mensagem
 export interface Mensagem {
   id: number;
-  tiposMensagem: TiposMensagem;
-  timestampCod: number;
+  tipoMensagem: string;
+  timestamp: number;
   textMsg: string;
   feedback: string;
   categoria: string;
