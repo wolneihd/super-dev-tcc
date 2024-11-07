@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,8 +26,13 @@ public class UsuariosController {
         return usuariosService.getAllUsuariosWithMessages();
     }
 
+    // @PostMapping("/nova-mensagem")
+    // public List<Usuario> insertInformation(@RequestBody List<Usuario> usuarios) {
+    //     return usuariosService.addNewMessages(usuarios);
+    // }
+
     @PostMapping("/nova-mensagem")
-    public List<Usuario> insertInformation(@RequestBody List<Usuario> usuarios) {
-        return usuariosService.addNewMessages(usuarios);
+    public Usuario insertInformation(@RequestBody Usuario usuario) {
+        return usuariosService.addNewMessages(usuario);
     }
 }

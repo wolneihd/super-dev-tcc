@@ -4,6 +4,8 @@ import speech_recognition as sr
 from pydub import AudioSegment
 from dotenv import load_dotenv
 from service import save_message_DB
+import random
+import string
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -11,18 +13,20 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 
+## Resposta ao iniciar o BOT
 @bot.message_handler(commands=['start'])
 def start_message(message):
     bot.reply_to(message, "Olá, você está no IA-Feedback-Analyser!")
 
 
+## Handler para mensagens em texto
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
-    #save_text_message_DB(message)
     save_message_DB(message)
     bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
 
 
+## Handler para mensagens em audio
 @bot.message_handler(content_types=['voice'])
 def handle_voice(message):
     # Baixa o arquivo de áudio
@@ -43,7 +47,7 @@ def handle_voice(message):
 
     # Salva informação no banco de dados
     save_message_DB(message, transcription)
-    bot.send_message(message.chat.id, "mensagem recebida, estaremos analisando.")
+    bot.send_message(message.chat.id, "Mensagem de aúdio recebida, estaremos analisando.")
 
 
 def convert_audio(input_file, output_file):
@@ -66,6 +70,26 @@ def transcribe_audio(audio_path):
         return f"Erro ao conectar ao serviço de reconhecimento de fala: {e}"
 
 
+## Handler para mensagens tipo Imagem
+@bot.message_handler(content_types=['photo'])
+def handle_photo(message):
+    # Obtém o arquivo da imagem
+    file_info = bot.get_file(message.photo[-1].file_id)
+    downloaded_file = bot.download_file(file_info.file_path)
+
+    caracteres = string.ascii_letters + string.digits
+    nome_arquivo = ''.join(random.choice(caracteres) for _ in range(15))
+
+    # Define o caminho para salvar a imagem
+    image_path = os.path.join('images', f'{nome_arquivo}.jpg')
+
+    # Salva a imagem na pasta 'images'
+    with open(image_path, 'wb') as new_file:
+        new_file.write(downloaded_file)
+
+    save_message_DB(message)
+    bot.send_message(message.chat.id, "Imagem recebida, estaremos analisando.")
+
 if __name__ == '__main__':
-    print("bot start...")
+    print("bot iniciado...")
     bot.polling(none_stop=True)

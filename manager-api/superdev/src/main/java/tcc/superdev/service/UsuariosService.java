@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuariosService {
@@ -53,38 +53,43 @@ public class UsuariosService {
     }
 
     @Transactional
-    public List<Usuario> addNewMessages(List<Usuario> usuarios) {
-        System.out.println("-- entrnando no serviçO!");
-        List<Usuario> savedUsuarios = new ArrayList<>();
-        for (Usuario usuario : usuarios) {
-            // Verifica se já existe um usuário com o mesmo userId
-            Usuario existingUsuario = usuariosRepository.findByUserId(usuario.getUserId());
+    public Usuario addNewMessages(Usuario usuario) {
+        Usuario novoUsuario = new Usuario();
+        Usuario usuarioExistente = usuariosRepository.findByUserId(usuario.getUserId());
 
-            if (existingUsuario == null) {
-                // Salva o novo usuário se não existir
-                existingUsuario = usuariosRepository.save(usuario);
-            } else {
-                // Atualiza os dados do usuário existente
-                existingUsuario.setFirstName(usuario.getFirstName());
-                existingUsuario.setLastName(usuario.getLastName());
-                usuariosRepository.save(existingUsuario); // Salva as alterações no usuário
-            }
+        if (usuarioExistente == null) {
+            novoUsuario.setFirstName(usuario.getFirstName());
+            novoUsuario.setLastName(usuario.getLastName());
+            novoUsuario.setUserId(usuario.getUserId());
+            usuariosRepository.save(novoUsuario);
 
-            // Adiciona novas mensagens ao usuário existente
             for (Mensagem mensagem : usuario.getMensagens()) {
-                Mensagem newMensagem = new Mensagem();
-                newMensagem.setTextMsg(mensagem.getTextMsg());
-                newMensagem.setTimestampCod(mensagem.getTimestampCod());
-                newMensagem.setTiposMensagem(mensagem.getTiposMensagem());
-                newMensagem.setUsuario(existingUsuario); // Associa a nova mensagem ao usuário
-                newMensagem.setAnalise_ia(mensagem.getAnalise_ia());
-                newMensagem.setCategoria(mensagem.getCategoria());
-                newMensagem.setFeedback(mensagem.getFeedback());
-                mensagensRepository.save(newMensagem); // Salva como um novo registro
+                Mensagem novaMensagem = new Mensagem();
+                novaMensagem.setTipoMensagem(mensagem.getTipoMensagem());
+                novaMensagem.setTimestamp(mensagem.getTimestamp());
+                novaMensagem.setTextMsg(mensagem.getTextMsg());
+                novaMensagem.setFeedback(mensagem.getFeedback());
+                novaMensagem.setCategoria(mensagem.getCategoria());
+                novaMensagem.setAnalise_ia(mensagem.getAnalise_ia());
+                novaMensagem.setUsuario(novoUsuario);
+                mensagensRepository.save(novaMensagem);
             }
 
-            savedUsuarios.add(existingUsuario);
+        } else {
+            for (Mensagem mensagem : usuario.getMensagens()) {
+                Mensagem novaMensagem = new Mensagem();
+                novaMensagem.setTipoMensagem(mensagem.getTipoMensagem());
+                novaMensagem.setTimestamp(mensagem.getTimestamp());
+                novaMensagem.setTextMsg(mensagem.getTextMsg());
+                novaMensagem.setFeedback(mensagem.getFeedback());
+                novaMensagem.setCategoria(mensagem.getCategoria());
+                novaMensagem.setAnalise_ia(mensagem.getAnalise_ia());
+                novaMensagem.setUsuario(usuarioExistente);
+                mensagensRepository.save(novaMensagem);
+            }
         }
-        return savedUsuarios;
+
+        return usuario;
     }
+
 }

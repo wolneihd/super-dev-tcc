@@ -1,12 +1,13 @@
 package tcc.superdev.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,20 +28,24 @@ public class Mensagem {
     @JsonBackReference
     private Usuario usuario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_mensagem")
-    private TiposMensagem tiposMensagem;
+    @Column(name = "tipoMensagem", length = 10)
+    private String tipoMensagem;
 
-    private Long timestampCod;
+    @Column(name = "timestamp", nullable = false)
+    private Long timestamp;
+
+    @Column(name = "textMsg", length = 255)
     private String textMsg;
 
     // Campos análise IA
+    @Column(name = "feedback", length = 255)
     private String feedback;
+    @Column(name = "categoria", length = 50)
     private String categoria;
+    @Column(name = "analise_ia", length = 50)
     private String analise_ia;
 
-    // Getters e Setters
-
+    // Getters and Setters
     public Integer getId() {
         return this.id;
     }
@@ -57,20 +62,20 @@ public class Mensagem {
         this.usuario = usuario;
     }
 
-    public TiposMensagem getTiposMensagem() {
-        return this.tiposMensagem;
+    public String getTipoMensagem() {
+        return this.tipoMensagem;
     }
 
-    public void setTiposMensagem(TiposMensagem tiposMensagem) {
-        this.tiposMensagem = tiposMensagem;
+    public void setTipoMensagem(String tipoMensagem) {
+        this.tipoMensagem = tipoMensagem;
     }
 
-    public Long getTimestampCod() {
-        return this.timestampCod;
+    public Long getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setTimestampCod(Long timestampCod) {
-        this.timestampCod = timestampCod;
+    public void setTimestamp(Long timestampCod) {
+        this.timestamp = timestampCod;
     }
 
     public String getTextMsg() {
